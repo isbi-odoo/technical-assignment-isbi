@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    
+    
+    <record id="dock_id_config" model="ir.actions.act_window">
+        <field name="name">dock.id.config</field>
+        <field name="res_model">dock.id.config</field>
+        <field name="view_mode">form , tree</field>
+    </record>
+
+    <menuitem id="menu_fleet_dock_id"
+            name="Dock"
+            parent="fleet.fleet_models_configuration"
+            action="transport_management.dock_id_config"
+            groups="base.group_system"
+            />
+    
+</odoo>

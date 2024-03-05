@@ -7,11 +7,41 @@
         <field name="inherit_id" ref="stock_picking_batch.stock_picking_batch_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='scheduled_date']" position="after">
+                <field name="dock_id"/>
                 <field name="vehicle_category_id"/>
                 <field name="vehicle_id"/>
-                <field name = "weight" widget="progressbar"/>
-                <field name="volume" widget="progressbar" />
+                <field name ="weight" widget="progressbar" invisible='not vehicle_category_id'/>
+                <field name="volume" widget="progressbar" invisible='not vehicle_category_id'/>
             </xpath>
+            
+        </field>
+    </record>
+
+    <record id ='stock_picking_batch.stock_picking_batch_action' model="ir.actions.act_window"> 
+        <field name="view_mode">tree,kanban,form,graph,gantt</field>
+    </record>
+
+    <record id="stock_picking_batch_view_gantt" model="ir.ui.view">
+        <field name="name">stock.picking.batch.view.gantt</field>
+        <field name="model">stock.picking.batch</field>
+        <field name="arch" type="xml">
+            <gantt string="Gantt View" date_start='scheduled_date'  date_stop ='scheduled_date' default_scale='week' color="dock_id" sample="1" default_group_by='dock_id,vehicle_category_id' decoration-info="state in ('draft')">
+                    <field name="state" invisible="1"/>
+            </gantt>
+        </field>
+    </record>
+
+    <record id="view_stock_picking_statistics_graph" model="ir.ui.view">
+        <field name="name">stock Statistics Graph</field>
+        <field name="model">stock.picking.batch</field>
+        <field name="arch" type="xml">
+            <graph string="Stock Statistics" type='bar'>
+                <field name="volume" type="measure"/>
+                <field name="weight" type="measure"/>
+                <field name='transfer' type='measure'/>
+                <field name='scheduled_date' interval='day'/>
+                <field name='vehicle_category_id' type='row'/>
+            </graph>
         </field>
     </record>
 

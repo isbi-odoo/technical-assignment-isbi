@@ -9,13 +9,13 @@ class TrasnportStockPicking(models.Model):
     
     _inherit = 'stock.picking'
     
-    weight = fields.Float(String ="Product Weight" , related="product_id.weight")
-    volume = fields.Float(String ="Product Volume" , related="product_id.volume")
+    weight = fields.Float(string="Product Weight", compute='_compute_weight_and_volume')
+    volume = fields.Float(string="Product Volume", compute='_compute_weight_and_volume')
     
     @api.depends('weight', 'volume')
-    def _compute_weight(self):
+    def _compute_weight_and_volume(self):
         for record in self:
-            total_weight = sum(move.quantity * move.product_id.weight for move in record.move_ids)
-            total_volume = sum(move.quantity * move.product_id.volume for move in record.move_ids)
+            total_weight = sum(move.product_id.weight for move in record.picking_id)
+            total_volume = sum(move.product_id.volume for move in record.picking_id)
             record.weight = total_weight
             record.volume = total_volume
