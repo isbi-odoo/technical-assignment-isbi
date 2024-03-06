@@ -15,7 +15,7 @@ class TrasnportStockPicking(models.Model):
     @api.depends('weight', 'volume')
     def _compute_weight_and_volume(self):
         for record in self:
-            total_weight = sum(move.product_id.weight for move in record.picking_id)
-            total_volume = sum(move.product_id.volume for move in record.picking_id)
+            total_weight = sum(move.product_qty*move.product_id.weight for move in record.move_ids)
+            total_volume = sum(move.product_qty*move.product_id.volume for move in record.move_ids)
             record.weight = total_weight
             record.volume = total_volume
