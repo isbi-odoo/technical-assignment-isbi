@@ -21,3 +21,7 @@ class TrasnportFleetCategory(models.Model):
 
     # _sql_constraints = [
     # ]
+    _sql_constraints = [ ('max_weight', 'CHECK( max_weight > 0)', 'The weight can not be zero.'),
+        ('max_volume', 'CHECK( max_volume > 0)', 'The volume can not be zero.'),
+        
+    ]
